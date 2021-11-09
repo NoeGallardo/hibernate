@@ -3,24 +3,32 @@ package com.noegallardo.jdbc;
 import java.sql.Connection;
 import java.sql.DriverManager;
 
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
+
+import com.noegallardo.entity.Student;
+
 public class TestJdbc {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+		SessionFactory factory = new Configuration().configure("hibernate.cfg.xml").addAnnotatedClass(Student.class).buildSessionFactory();
 		
-		String jdbcUrl = "jdbc:oracle:thin:hbstudent/hbstudent@localhost:51521/hb_student_tracker";
-		//String user = "hbstudent";
-		//String pass = "hbstudent";
+		
+		Session session = factory.getCurrentSession();
 		
 		try {
+			System.out.println("Creatin new Student Object");
+			Student tempStudent = new Student("Paul", "Simon", "paul.walker@sanmina.com");
+			session.beginTransaction();
+			session.save(tempStudent);
+			System.out.println("Saving the new Student");
+			session.getTransaction().commit();
 			
-			System.out.println("Connection with database "+jdbcUrl);	
-			Connection myConnn = DriverManager.getConnection(jdbcUrl);
+			System.out.println("Done");
 			
-			System.out.println("Connectios Successfully!!!");
-			
-		}catch(Exception ex) {
-			System.out.println(ex);
+		}finally {
+			factory.close();
 		}
 	}
 
