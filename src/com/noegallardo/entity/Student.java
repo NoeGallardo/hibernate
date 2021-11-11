@@ -2,6 +2,8 @@ package com.noegallardo.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -10,8 +12,9 @@ import javax.persistence.Table;
 public class Student {
 	
 	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="id")
-	private int id;
+	private Integer id;
 	
 	@Column(name="fist_name")
 	private String first_name;
@@ -21,9 +24,12 @@ public class Student {
 	
 	@Column(name="email")
 	private String email;
+	
+	public Student(){}
 
 	public Student(String first_name, String last_name, String email) {
 		super();
+		this.id = null;
 		this.first_name = first_name;
 		this.last_name = last_name;
 		this.email = email;
@@ -33,9 +39,9 @@ public class Student {
 		return id;
 	}
 
-	public void setId(int id) {
-		this.id = id;
-	}
+	
+	  public void setId(int id) { this.id = id; }
+	 
 
 	public String getFirst_name() {
 		return first_name;
